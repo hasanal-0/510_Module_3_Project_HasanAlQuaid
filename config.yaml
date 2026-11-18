@@ -1,0 +1,42 @@
+experiment_id: "exp001"
+name: "Diamond Price Prediction with Random Forest"
+description: "Predict diamond prices from carat, cut, color, clarity, depth, and table using a random forest regressor"
+tags: ["diamonds", "random_forest", "regression"]
+
+dataset:
+  name: "diamonds_v1"
+  source_url: "https://huggingface.co/datasets/mstz/diamonds/raw/main/diamonds.csv"
+  raw_path: "data/raw/diamonds.csv"
+  processed_path: "data/processed/diamonds_clean.csv"
+  split_ratio: [0.7, 0.15, 0.15]  # train, val, test
+  target: "price"
+  features:
+    numeric: ["carat", "depth", "table"]
+    ordinal:                      # ordered worst -> best
+      cut: ["Fair", "Good", "Very Good", "Premium", "Ideal"]
+      color: ["J", "I", "H", "G", "F", "E", "D"]
+      clarity: ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]
+
+storage:
+  use_gcs: true                          # false = read and write locally only
+  bucket: "diamonds-hasan-aipi510"       # <-- change to your bucket name
+  data_path: "data/diamonds_clean.csv"
+  model_path: "models/model.joblib"
+
+model:
+  architecture: "random_forest"   # random_forest or linear_regression
+  hyperparameters:                # used by random_forest only
+    n_estimators: 200
+    max_depth: 15
+    min_samples_leaf: 2
+  output_path: "models/model.joblib"
+
+evaluation:
+  metrics: ["mae", "rmse", "r2"]
+
+tracking:
+  wandb_project: "diamond-price-mlops"
+  wandb_mode: "online"            # online, offline, or disabled
+
+reproducibility:
+  seed: 24

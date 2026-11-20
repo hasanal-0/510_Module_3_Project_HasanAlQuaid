@@ -18,17 +18,18 @@ dataset:
       clarity: ["I1", "SI2", "SI1", "VS2", "VS1", "VVS2", "VVS1", "IF"]
 
 storage:
-  use_gcs: true                          # false = read and write locally only
-  bucket: "diamonds-hasan-aipi510"       # <-- change to your bucket name
+  use_gcs: true                   # false = read and write locally only
+  project: "aipi510-diamonds-hasan-mod3"
+  bucket: "diamonds-hasan-aipi510"
   data_path: "data/diamonds_clean.csv"
   model_path: "models/model.joblib"
 
 model:
-  architecture: "random_forest"   # random_forest or linear_regression
-  hyperparameters:                # used by random_forest only
+  architecture: "random_forest"
+  hyperparameters:
     n_estimators: 200
     max_depth: 15
-    min_samples_leaf: 2
+    min_samples_leaf: 5
   output_path: "models/model.joblib"
 
 evaluation:

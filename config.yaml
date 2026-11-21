@@ -1,4 +1,4 @@
-experiment_id: "exp001"
+experiment_id: "final"
 name: "Diamond Price Prediction with Random Forest"
 description: "Predict diamond prices from carat, cut, color, clarity, depth, and table using a random forest regressor"
 tags: ["diamonds", "random_forest", "regression"]
@@ -27,17 +27,24 @@ storage:
 model:
   architecture: "random_forest"
   hyperparameters:
-    n_estimators: 200
+    n_estimators: 300
     max_depth: 15
-    min_samples_leaf: 5
+    min_samples_leaf: 1
   output_path: "models/model.joblib"
 
 evaluation:
-  metrics: ["mae", "rmse", "r2"]
+  metrics: ["mae", "rmse", "r2"]           
+
+tuning:
+  # every combination is tried (3 x 3 x 3 = 27) and scored on the validation set by src/tune.py
+  grid:
+    n_estimators: [100, 200, 300]
+    max_depth: [10, 15, 20]
+    min_samples_leaf: [1, 2, 5]
 
 tracking:
-  wandb_project: "diamond-price-mlops"
-  wandb_mode: "online"            # online, offline, or disabled
+  mlflow_tracking_uri: "sqlite:///mlflow.db"   # local MLflow database in the project folder
+  mlflow_experiment: "diamond-price-mlops"
 
 reproducibility:
   seed: 24

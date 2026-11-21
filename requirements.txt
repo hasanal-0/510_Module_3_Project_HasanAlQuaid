@@ -4,6 +4,6 @@ scikit-learn==1.7.2
 joblib==1.6.0
 PyYAML==6.0.3
 google-cloud-storage==3.17.1
-wandb==0.31.0
+mlflow==3.18.0
 fastapi==0.162.5
 uvicorn==0.54.0

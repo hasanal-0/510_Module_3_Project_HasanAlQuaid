@@ -128,9 +128,23 @@ Final model (`train.py`, best settings from the grid search):
 ![Final run in MLflow](images/final_run.png)
 ![Validation vs test MAE](images/final_val_vs_test.png)
 
-**Limitations:**
-- Depth and table barely affect price. For extreme values the model rarely saw (like 50% or 75%), it falls back on the closest training diamonds, so those predictions are less reliable.
-- Prices reflect when the dataset was collected, not today's market.
+## Ethical Implications and Limitations
+
+### Limitations
+
+- **Few large diamonds:** most diamonds in the dataset are small, and large stones (over about 2.5 carats) are rare. With so few examples to learn from, the model is less accurate for big diamonds, which is also where the largest errors happen.
+- **Old prices:** the dataset is historical, so prices reflect when it was collected, not today's market. Inflation and market changes (like the rise of lab-grown diamonds) are not included.
+- **Missing features:** the model only sees carat, cut, color, clarity, depth, and table. Real prices also depend on shape, certification (like GIA), fluorescence, and the seller, none of which are in the data.
+- **Bigger errors on expensive diamonds:** the average error is $275, but RMSE ($522) is almost twice the MAE, which means some predictions, mostly for large, expensive stones, are off by much more.
+- **Unusual inputs:** the model can't extrapolate. For proportions it rarely saw (like depth 50% or 75%), it falls back on the closest training diamonds, so those predictions are less reliable.
+
+### Ethical implications
+
+- **Not a professional appraisal:** the app gives an estimate, not a certified value. Using it to set a selling price, an insurance value, or a loan could lead to very unfair deals, so the app should not be taken seriously to set any sort of price/deal of a diamond.
+- **Risk of misleading buyers or sellers:** a confident-looking number can make people trust it too much, and think the models is always 100% accurate. 
+- **Ethical sourcing is ignored:** the model prices diamonds only by their physical traits. It knows nothing about where a diamond came from, so it treats a conflict diamond the same as an ethically sourced one.
+- **Privacy:** the data contains no personal information, only diamond features, and the app does not store what users enter.
+- **Open API:** the API is public with no login, so anyone can use it. That's fine for a class project, but a real product would need limits to prevent misuse and unexpected cloud costs.
 
 ## Experiment Tracking (MLflow)
 
